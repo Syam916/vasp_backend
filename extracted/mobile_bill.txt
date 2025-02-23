@@ -1,0 +1,58 @@
+Tax Invoice/Bill of Supply/Cash Memo
+(Original for Recipient)
+*ASSPL-Amazon Seller Services Pvt. Ltd., ARIPL-Amazon Retail India Pvt. Ltd. (only where Amazon Retail India Pvt. Ltd. fulfillment center is co-located)
+Customers desirous of availing input GST credit are requested to create a Business account and purchase on Amazon.in/business from Business eligible offers
+Please note that this invoice is not a demand for payment
+Page 1 of 1For DARSHITA AASHIYANA PVT LTD:
+Authorized Signatory
+Order Number:  402-8551473-3681930 Invoice Number :  FHYE-58026
+Order Date:  15.01.2025 Invoice Details :  TG-FHYE-1532991485-2425
+Invoice Date :  15.01.2025
+Sl.
+NoDescriptionUnit
+PriceQtyNet
+AmountTax
+RateTax
+TypeTax
+AmountTotal
+Amount
+1Redmi A4 5G (Sparkle Purple, 4GB RAM, 64GB Storage) |
+Global Debut SD 4s Gen 2 | Segment Largest 6.88in 120Hz |
+50MP Dual Camera | 18W Fast Charging | B0DLW427YG (
+RA45G-PURPLE-4+64GB )
+HSN:85171300₹7,033.06 1₹7,033.069%CGST₹632.97₹8,299.00
+9%SGST₹632.97
+TOTAL: ₹1,265.94₹8,299.00
+Amount in Words:
+Eight Thousand Two Hundred Ninety-nine only
+Whether tax is payable under reverse charge - No
+Payment Transaction ID:
+p2yucpU0KKbctFbDLSqoDate & Time: 15/01/2025,
+14:59:54 hrsInvoice Value:
+8,299.00Mode of Payment:
+AmazonProductVoucher
+Payment Transaction ID:
+mP1oJA3qoADMpEbBe8NMDate & Time: 15/01/2025,
+14:59:48 hrsMode of Payment: Credit CardSold By :
+DARSHITA AASHIYANA PVT LTD
+* Parle Godowns, Laxmi Nagar, Habsiguda
+HYDERABAD, TELANGANA, 500013
+IN
+PAN No: AAFCD6883Q
+GST Registration No: 36AAFCD6883Q1ZRBilling Address :
+Syam
+1/57/A/194 , sri Aurobindo Residency, 9, sriram
+nagar road,Sri Ram nagar
+HYDERABAD, TELANGANA, 500084
+IN
+State/UT Code: 36
+Shipping Address :
+Syam
+Syam
+Aurum building 1st floor, plot no 57, jayabheri
+enclave, Gachibowli
+HYDERABAD, TELANGANA, 500032
+IN
+State/UT Code: 36
+Place of supply: TELANGANA
+Place of delivery: TELANGANA
