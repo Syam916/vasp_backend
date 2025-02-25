@@ -3,6 +3,9 @@ from app.extensions import db
 from app.models.complaint import Complaint
 from app.models.product import Product
 from sqlalchemy.exc import SQLAlchemyError
+from app.models.service_center import ServiceCenter
+from app.utils.service_center_crawler import ServiceCenterCrawler
+from app.models.user import User
 
 complaint = Blueprint('complaint', __name__)
 
@@ -76,36 +79,30 @@ def get_products_by_category(category):
 @complaint.route('/submit', methods=['POST'])
 def submit_complaint():
     try:
-        data = request.get_json()
-        print(data)
+        data = request.json
+        username = data.get('user_name')
         
-        if not all([data.get('category'), data.get('product'), data.get('complaint')]):
-            return jsonify({
-                'error': 'Missing required fields'
-            }), 400
-            
+        # Create new complaint
         new_complaint = Complaint(
-            user_name=data.get('user_name'),
+            user_name=username,
             category=data.get('category'),
             product=data.get('product'),
-            complaint=data.get('complaint')
+            complaint=data.get('complaint'),
+            status='Pending'
         )
         
         db.session.add(new_complaint)
         db.session.commit()
-        
+
         return jsonify({
             'message': 'Complaint registered successfully',
             'complaint': new_complaint.to_dict()
         }), 201
         
-    except SQLAlchemyError as e:
-        db.session.rollback()
-        print("Database error:", str(e))
-        return jsonify({'error': 'Database error occurred'}), 500
     except Exception as e:
+        db.session.rollback()
         print("Error submitting complaint:", str(e))
-        return jsonify({'error': 'Failed to submit complaint'}), 500
+        return jsonify({'error': str(e)}), 500
 
 @complaint.route('/user/<username>', methods=['GET'])
 def get_user_complaints(username):
@@ -123,4 +120,49 @@ def get_user_complaints(username):
         return jsonify({'error': 'Database error occurred'}), 500
     except Exception as e:
         print("Error fetching user complaints:", str(e))
-        return jsonify({'error': 'Failed to fetch complaints'}), 500 
+        return jsonify({'error': 'Failed to fetch complaints'}), 500
+
+@complaint.route('/service-centers/<brand>/<pincode>', methods=['GET'])
+def get_service_centers(brand, pincode):
+    try:
+        # Only check database
+        centers = ServiceCenter.query.filter_by(
+            brand=brand,
+            pincode=pincode
+        ).all()
+        
+        return jsonify({
+            'service_centers': [center.to_dict() for center in centers],
+            'source': 'database'
+        }), 200
+        
+    except Exception as e:
+        print("Error fetching service centers:", str(e))
+        return jsonify({'error': str(e)}), 500
+
+@complaint.route('/crawl-service-centers/<brand>/<pincode>', methods=['GET'])
+def crawl_service_centers(brand, pincode):
+    try:
+        crawler = ServiceCenterCrawler()
+        new_centers = crawler.find_service_centers(brand, pincode)
+        
+        if new_centers:
+            # Get newly added centers from DB
+            centers = ServiceCenter.query.filter_by(
+                brand=brand,
+                pincode=pincode
+            ).all()
+            
+            return jsonify({
+                'service_centers': [center.to_dict() for center in centers],
+                'source': 'crawler'
+            }), 200
+        
+        return jsonify({
+            'service_centers': [],
+            'message': 'No service centers found'
+        }), 200
+        
+    except Exception as e:
+        print("Error crawling service centers:", str(e))
+        return jsonify({'error': str(e)}), 500 

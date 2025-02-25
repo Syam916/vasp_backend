@@ -11,6 +11,7 @@ from app.utils.amazon_crawler import *
 from app.models.user import User
 from app.models.product import Product, ProductImage
 import pandas as pd
+from flask_cors import cross_origin
 
 from app.config import Config
 
@@ -342,4 +343,49 @@ def download_pdf():
             
     except Exception as e:
         print(f"Download error: {str(e)}")
+        return jsonify({'error': str(e)}), 500
+
+@doc.route('/save', methods=['POST', 'OPTIONS'])
+@cross_origin(supports_credentials=True)
+def save_document():
+    if request.method == 'OPTIONS':
+        # Explicitly handle OPTIONS request
+        response = jsonify({'status': 'ok'})
+        response.headers.add('Access-Control-Allow-Methods', 'POST, OPTIONS')
+        response.headers.add('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+        response.headers.add('Access-Control-Allow-Credentials', 'true')
+        return response
+
+    try:
+        data = request.get_json()
+        if not data:
+            return jsonify({'error': 'No data provided'}), 400
+
+        # Your existing save logic here
+        new_product = Product(
+            user_name=data.get('user_name'),
+            category=data.get('category'),
+            product_brand=data.get('product_brand'),
+            product_name=data.get('product_name'),
+            order_date=data.get('order_date'),
+            expiry_date=data.get('expiry_date'),
+            total_amount=data.get('total_amount'),
+            file_path=data.get('file_path')
+        )
+        
+        db.session.add(new_product)
+        db.session.commit()
+
+        return jsonify({
+            'message': 'Document saved successfully',
+            'product': {
+                'id': new_product.id,
+                'category': new_product.category,
+                'product_brand': new_product.product_brand
+            }
+        }), 200
+
+    except Exception as e:
+        print(f"Save error: {str(e)}")
+        db.session.rollback()
         return jsonify({'error': str(e)}), 500
